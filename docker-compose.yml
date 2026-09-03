@@ -1,0 +1,12 @@
+services:
+  automate-insta:
+    build: .
+    container_name: automate-insta
+    ports:
+      - "5000:5000"
+    environment:
+      - CHROME_BINARY_PATH=/usr/bin/chromium
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+    volumes:
+      - ./instagram_cookies.pkl:/app/instagram_cookies.pkl
+    restart: unless-stopped
