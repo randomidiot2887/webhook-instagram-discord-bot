@@ -26,7 +26,7 @@ def init_driver():
     options.add_experimental_option(
         "prefs", {"profile.default_content_setting_values.notifications": 2}
     )
-    options.binary_location = "/usr/bin/chromium-browser"  # Debian image path, not Fedora's
+    options.binary_location = "/usr/bin/chromium"  # Debian image path, not Fedora's
 
     driver = webdriver.Chrome(options=options)
     driver.execute_cdp_cmd(
