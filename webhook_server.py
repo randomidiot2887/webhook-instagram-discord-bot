@@ -25,9 +25,16 @@ def check_auth(data):
     return data.get("secret") == WEBHOOK_SECRET
 
 
-@app.route("/update-note", methods=["POST"])
+def get_params():
+    # Supports both JSON POST body and GET query params
+    if request.method == "GET":
+        return request.args
+    return request.get_json(silent=True) or {}
+
+
+@app.route("/update-note", methods=["GET", "POST"])
 def update_note():
-    data = request.get_json(silent=True) or {}
+    data = get_params()
 
     if not check_auth(data):
         return jsonify({"error": "unauthorized"}), 401
@@ -40,9 +47,9 @@ def update_note():
     return jsonify({"status": "started"}), 202
 
 
-@app.route("/update-discord-status", methods=["POST"])
+@app.route("/update-discord-status", methods=["GET", "POST"])
 def update_discord_status():
-    data = request.get_json(silent=True) or {}
+    data = get_params()
 
     if not check_auth(data):
         return jsonify({"error": "unauthorized"}), 401
@@ -57,9 +64,9 @@ def update_discord_status():
     return jsonify({"status": "started"}), 202
 
 
-@app.route("/update-both", methods=["POST"])
+@app.route("/update-both", methods=["GET", "POST"])
 def update_both():
-    data = request.get_json(silent=True) or {}
+    data = get_params()
 
     if not check_auth(data):
         return jsonify({"error": "unauthorized"}), 401
